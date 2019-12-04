@@ -10,6 +10,7 @@ import acm.util.*;
 
 public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
+	
 	public static void main(String[] args) {
 		new Yahtzee().start(args);
 	}
@@ -26,7 +27,20 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	}
 
 	private void playGame() {
-		/* You fill this in */
+		
+		display.waitForPlayerToClickRoll(nPlayers);
+		makeDiceValues();
+		
+	}
+	
+	private void makeDiceValues() {
+		
+		for(int i = 0; i < N_DICE; i++) {
+			diceVals[i] = rgen.nextInt(1, 6);
+		}
+		
+		display.displayDice(diceVals);
+		
 	}
 		
 /* Private instance variables */
@@ -34,5 +48,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private String[] playerNames;
 	private YahtzeeDisplay display;
 	private RandomGenerator rgen = new RandomGenerator();
+	private int[] diceVals = new int[N_DICE];
+	
 
 }
