@@ -10,6 +10,7 @@ import acm.util.*;
 
 public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
+	private static final int turns = 3;
 	
 	public static void main(String[] args) {
 		new Yahtzee().start(args);
@@ -28,10 +29,14 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void playGame() {
 		
-		display.waitForPlayerToClickRoll(nPlayers);
-		makeDiceValues();
-		
-	}
+		for (int i = 0; i < turns; i++) {
+			display.waitForPlayerToClickRoll(nPlayers);
+			makeDiceValues();
+			display.waitForPlayerToSelectDice();
+			makeDiceValuesLoop();
+			}
+		}
+	
 	
 	private void makeDiceValues() {
 		
@@ -42,13 +47,36 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display.displayDice(diceVals);
 		
 	}
+	
+	private void makeDiceValuesLoop() {
+//		if(display.isDieSelected(nPlayers)) {
+//			display.waitForPlayerToClickRoll(nPlayers);
+//			makeDiceValues();
+//	
+//		}
 		
+		
+		for (int i=0; i<N_DICE; i++) {
+			if (display.isDieSelected(i)) {
+			diceVals[i] = rgen.nextInt(1,6);
+			
+		}
+	}
+		display.displayDice(diceVals);
+		display.waitForPlayerToSelectCategory();
+		display.updateScorecard(N_SCORING_CATEGORIES, nPlayers, Score );
+	}
+		
+	private void readArray() {
+		for (int j = 0; j<N_DICE; j++) {
+			diceVals[j] += Score;
+		}
+	}
 /* Private instance variables */
 	private int nPlayers;
 	private String[] playerNames;
 	private YahtzeeDisplay display;
 	private RandomGenerator rgen = new RandomGenerator();
 	private int[] diceVals = new int[N_DICE];
-	
-
+	private int Score;
 }
