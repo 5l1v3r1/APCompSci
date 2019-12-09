@@ -26,8 +26,45 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display = new YahtzeeDisplay(getGCanvas(), playerNames);
 		playGame();
 	}
+	
+	private void setCurrentPlayer() {
+		String currentPlayer = playerNames[playerCounter-1];
+		display.printMessage(currentPlayer + "’s turn.  Roll the dice!");
+		}
+	
+	private void initializeUsedCategories() {
+		/*Creates a 2D array that stores the used and unused categories for each player 
+		 * so no one can re-use any category.  Also initializes the "total score" category for each player.*/
+	
+	usedCategories  = new int[nPlayers][N_CATEGORIES];
+	for(int i = 0; i < nPlayers; i++){
+		for(int y = 0; y < N_CATEGORIES; y++){
+			usedCategories[i][y] = -1;
+		}
+	}
+	playersTotalScore = new int[nPlayers];
+	for(int i = 0; i < nPlayers; i++){
+		playersTotalScore[i]=0;
+	}
+}
+	
 
 	private void playGame() {
+		
+
+	for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
+			
+	setCurrentPlayer();
+//			firstRoll();
+//			secondAndThirdRoll();
+//			selectACategory();
+//			evaluteDice(diceArray);
+//			checkCategory(category);
+//			display.updateScorecard(category, playerCounter, score);
+//			updateRunningTotal();
+//			setNextPlayer();
+//			
+}
 		
 		for (int i = 0; i < turns; i++) {
 			display.waitForPlayerToClickRoll(nPlayers);
@@ -67,11 +104,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display.updateScorecard(N_SCORING_CATEGORIES, nPlayers, Score );
 	}
 		
-	private void readArray() {
-		for (int j = 0; j<N_DICE; j++) {
-			diceVals[j] += Score;
-		}
-	}
+
 /* Private instance variables */
 	private int nPlayers;
 	private String[] playerNames;
@@ -79,4 +112,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private RandomGenerator rgen = new RandomGenerator();
 	private int[] diceVals = new int[N_DICE];
 	private int Score;
+	private int playerCounter;
+	private int[][] usedCategories;
+	private int[] playersTotalScore;
 }
