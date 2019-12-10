@@ -55,12 +55,12 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void playGame() {
 
-		// for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
+// for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
 
 		setCurrentPlayer();
 		firstRoll();
 		secondAndThirdRoll();
-//			selectACategory();
+//		selectACategory();
 //			evaluteDice(diceArray);
 //			checkCategory(category);
 //			display.updateScorecard(category, playerCounter, score);
@@ -87,7 +87,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 		for (int i = 0; i < 2; i++) {
 			display.waitForPlayerToSelectDice();
-			display.waitForPlayerToClickRoll(nPlayers);
 
 			for (int j = 0; j < N_DICE; j++) {
 				if (display.isDieSelected(j) == true) {
@@ -95,14 +94,25 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				}
 			}
 			display.displayDice(diceVals);
-			
+		}
+
+		
+		
+		int category = display.waitForPlayerToSelectCategory();
+		
+		if (category <= 6) {
+			for (int k = 0; k<diceVals.length; k++) {
+				if (diceVals[k] == category) {
+					Score += diceVals[k];
+				}
+			}
+		} else if (category >= 9 || category <= 16) {
+			for (int l = 0; l < diceVals.length; l++) {
+				Score += diceVals[l];
+			}
 		}
 		
-		for (int k = 0; k < diceVals.length; k++) {
-			Score += diceVals[k];
-		}
-		display.waitForPlayerToSelectCategory();
-		display.updateScorecard(N_SCORING_CATEGORIES, nPlayers, Score);
+		display.updateScorecard(category, nPlayers, Score);
 	}
 
 	/* Private instance variables */
