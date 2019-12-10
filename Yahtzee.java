@@ -98,9 +98,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 	private void selectACategory() {
 		
-		int category = display.waitForPlayerToSelectCategory();
 		
 		while (true) {
+			category = display.waitForPlayerToSelectCategory();
 			if(checkCategory(category)) break;
 		}
 		
@@ -137,10 +137,19 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				}
 			}
 			
+		} else if (category == 10) {
+			
+			for (int m = 0; m<N_DICE; m++) {
+				for (int n = m+1; n<N_DICE; n++) {
+					for (int o = n+1; o<N_DICE; o++) {
+						for (int p = o+1; p<N_DICE; p++) {
+							if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p]) return true;
+						}
+					}
+				}
+			}
 		} 
-//		else if (category == 10) {
-//			
-//		} else if (category == 11) {
+//			else if (category == 11) {
 //			
 //		} else if (category == 12) {
 //			
@@ -166,4 +175,5 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int playerCounter;
 	private int[][] usedCategories;
 	private int[] playersTotalScore;
+	private int category;
 }
