@@ -1,4 +1,3 @@
-
 /*
  * File: Yahtzee.java
  * ------------------
@@ -10,8 +9,6 @@ import acm.program.*;
 import acm.util.*;
 
 public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
-
-	private static final int turns = 3;
 
 	public static void main(String[] args) {
 		new Yahtzee().start(args);
@@ -44,7 +41,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		usedCategories = new int[nPlayers][N_CATEGORIES];
 		for (int i = 0; i < nPlayers; i++) {
 			for (int y = 0; y < N_CATEGORIES; y++) {
-				usedCategories[i][y] = -1;
+				usedCategories[i][y] = 0;
 			}
 		}
 		playersTotalScore = new int[nPlayers];
@@ -55,7 +52,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void playGame() {
 
-// for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
+for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
 
 		setCurrentPlayer();
 		firstRoll();
@@ -68,7 +65,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	}
 
-	// }
+	}
 
 	private void firstRoll() {
 
@@ -172,7 +169,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private RandomGenerator rgen = new RandomGenerator();
 	private int[] diceVals = new int[N_DICE];
 	private int Score;
-	private int playerCounter;
 	private int[][] usedCategories;
 	private int[] playersTotalScore;
 	private int category;
