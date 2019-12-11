@@ -91,22 +91,21 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void selectACategory() {
 
-		while (true) {
-			category = display.waitForPlayerToSelectCategory();
-			if (checkCategory(category))
-				break;
-		}
-
-		if (category <= 6) {
-			for (int k = 0; k < diceVals.length; k++) {
-				if (diceVals[k] == category) {
-					Score += diceVals[k];
+		category = display.waitForPlayerToSelectCategory();
+		
+		if (checkCategory(category)) {
+		
+			if (category <= 10 || category == 15) {
+				for (int k = 0; k < diceVals.length; k++) {
+					if (diceVals[k] == category) {
+						Score += diceVals[k];
+					}
 				}
+			} else if (category >= 11 || category <= 14) {
+				
 			}
-		} else if (category >= 9 || category <= 16) {
-			for (int l = 0; l < diceVals.length; l++) {
-				Score += diceVals[l];
-			}
+		} else {
+			Score = 0;
 		}
 
 		display.updateScorecard(category, nPlayers, Score);
@@ -135,16 +134,17 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 		} else if (category == 10) {
 
-			for (int m = 0; m < N_DICE; m++) {
-				for (int n = m + 1; n < N_DICE; n++) {
-					for (int o = n + 1; o < N_DICE; o++) {
-						for (int p = o + 1; p < N_DICE; p++) {
-							if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p])
-								return true;
-						}
-					}
-				}
+			for (int i = 0; i < N_DICE; i++) {
+				int currentFourOfAKindValue = diceVals[i];
+				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
+				if (fourOfAKindChecker++ >= 4) return true;
 			}
+			for (int i = 1; i < N_DICE; i++) {
+				int currentFourOfAKindValue = diceVals[i];
+				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
+				if (fourOfAKindChecker++ >= 4) return true;
+			}
+			
 		} else if (category == 11) {
 			int threeSame = 0;
 
@@ -194,10 +194,10 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			}
 		} else if (category == 14) {
 			for (int m = 0; m < N_DICE; m++) {
-				for (int n = 0; n < N_DICE; n++) {
-					for (int o = 0; o < N_DICE; o++) {
-						for (int p = 0; p < N_DICE; p++) {
-							for (int q = 0; q < N_DICE; q++) {
+				for (int n = m + 1; n < N_DICE; n++) {
+					for (int o = m + 1; o < N_DICE; o++) {
+						for (int p = o + 1; p < N_DICE; p++) {
+							for (int q = p + 1; q < N_DICE; q++) {
 								if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p] && diceVals[p] == diceVals[q])
 									return true;
 							}
@@ -227,4 +227,5 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int[] playersTotalScore;
 	private int category;
 	private int fullHouseChecker;
+	private int fourOfAKindChecker;
 }
