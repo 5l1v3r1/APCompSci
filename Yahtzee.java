@@ -54,18 +54,13 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private void playGame() {
 
 		for (int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++) {
-
 			setCurrentPlayer();
 			firstRoll();
 			secondAndThirdRoll();
 			selectACategory();
-//		display.updateScorecard(category, playerCounter, score);
-//		updateRunningTotal();
-//		setNextPlayer();
-//	
-
+			updateRunningTotal();
+//			setNextPlayer();
 		}
-
 	}
 
 	private void firstRoll() {
@@ -158,7 +153,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					for (int l = k + 1; l < N_DICE; l++) {
 						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l]) {
 							threeSame++;
-							fullHouseChecker = diceVals[j];						
+							fullHouseChecker = diceVals[j];
 						}
 					}
 				}
@@ -167,27 +162,60 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			if (threeSame == 1) {
 				for (int i = 0; i < N_DICE; i++) {
 					for (int j = i + 1; j < N_DICE; j++) {
-						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) {
+						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) 
 							return true;
-						}
+						
 					}
 				}
 			}
 		} else if (category == 12) {
-			
+			for (int m = 0; m < N_DICE; m++) {
+				for (int n = 0; n < N_DICE; n++) {
+					for (int o = 0; o < N_DICE; o++) {
+						for (int p = 0; p < N_DICE; p++) {
+							if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1)
+								return true;
+						}
+					}
+				}
+			}
+		} else if (category == 13) {
+			for (int m = 0; m < N_DICE; m++) {
+				for (int n = 0; n < N_DICE; n++) {
+					for (int o = 0; o < N_DICE; o++) {
+						for (int p = 0; p < N_DICE; p++) {
+							for (int q = 0; q < N_DICE; q++) {
+								if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1 && diceVals[q] == diceVals[p] + 1)
+									return true;
+							}
+						}
+					}
+				}
+			}
+		} else if (category == 14) {
+			for (int m = 0; m < N_DICE; m++) {
+				for (int n = 0; n < N_DICE; n++) {
+					for (int o = 0; o < N_DICE; o++) {
+						for (int p = 0; p < N_DICE; p++) {
+							for (int q = 0; q < N_DICE; q++) {
+								if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p] && diceVals[p] == diceVals[q])
+									return true;
+							}
+						}
+					}
+				}
+			}
 		} 
-//			else if (category == 13) {
-//			
-//		} else if (category == 14) {
-//			
-//		} else if (category == 15) {
-//			
-//		}
-
+		else if (category == 15) {
+			return true;
+		}
 		return false;
-
 	}
 
+	private void updateRunningTotal() {
+		
+	}
+	
 	/* Private instance variables */
 	private int nPlayers;
 	private String[] playerNames;
