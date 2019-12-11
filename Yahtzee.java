@@ -92,36 +92,50 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 		category = display.waitForPlayerToSelectCategory();
 		
-		if (checkCategory(category)) {
+		/*
+		 * FIX THIS
+		 */
 		
-			if (category <= 10 || category == 15) {
-				for (int k = 0; k < diceVals.length; k++) {
-					if (diceVals[k] == category) {
-						Score += diceVals[k];
+		while (usedCategories[nPlayers][category] == 1) {
+			if (usedCategories[nPlayers][category] == 0) {
+				if (checkCategory(category)) {
+		
+					if (category <= 10 || category == 15) {
+						for (int k = 0; k < diceVals.length; k++) {
+							if (diceVals[k] == category) {
+								Score += diceVals[k];
+							}
+						}
+					} else if (category >= 11 || category <= 14) {
+						switch(category) {
+						case 11: Score = 25;
+						case 12: Score = 30;
+						case 13: Score = 40;
+						case 14: Score = 50;
+						}
 					}
+				} else {
+					Score = 0;
 				}
-			} else if (category >= 11 || category <= 14) {
-				switch(category) {
-				case 11: Score = 25;
-				case 12: Score = 30;
-				case 13: Score = 40;
-				case 14: Score = 50;
-				}
+		
+				display.updateScorecard(category, nPlayers, Score);
+				Score = 0;
+			} else {
+				display.printMessage("This category has been used.");
+				display.printMessage("Choose Another");
 			}
-		} else {
-			Score = 0;
 		}
-
-		display.updateScorecard(category, nPlayers, Score);
-		Score = 0;
+		
 	}
 
 	private boolean checkCategory(int category) {
 
 		if (category <= 6) {
 			for (int i = 0; i < N_DICE; i++) {
-				if (diceVals[i] == category)
+				if (diceVals[i] == category) {
+					usedCategories[nPlayers][category] = 1;
 					return true;
+				}
 			}
 			return false;
 
@@ -131,6 +145,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				for (int k = j + 1; k < N_DICE; k++) {
 					for (int l = k + 1; l < N_DICE; l++) {
 						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l])
+							usedCategories[nPlayers][category] = 1;
 							return true;
 					}
 				}
@@ -141,12 +156,18 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			for (int i = 0; i < N_DICE; i++) {
 				int currentFourOfAKindValue = diceVals[i];
 				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
-				if (fourOfAKindChecker++ >= 4) return true;
+				if (fourOfAKindChecker++ >= 4) {
+					usedCategories[nPlayers][category] = 1;
+					return true;
+				}
 			}
 			for (int i = 1; i < N_DICE; i++) {
 				int currentFourOfAKindValue = diceVals[i];
 				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
-				if (fourOfAKindChecker++ >= 4) return true;
+				if (fourOfAKindChecker++ >= 4) {
+					usedCategories[nPlayers][category] = 1;
+					return true;
+				}
 			}
 			
 		} else if (category == 11) {
@@ -167,6 +188,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				for (int i = 0; i < N_DICE; i++) {
 					for (int j = i + 1; j < N_DICE; j++) {
 						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) 
+							usedCategories[nPlayers][category] = 1;
 							return true;
 						
 					}
@@ -178,6 +200,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					for (int o = 0; o < N_DICE; o++) {
 						for (int p = 0; p < N_DICE; p++) {
 							if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1)
+								usedCategories[nPlayers][category] = 1;
 								return true;
 						}
 					}
@@ -190,6 +213,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 						for (int p = 0; p < N_DICE; p++) {
 							for (int q = 0; q < N_DICE; q++) {
 								if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1 && diceVals[q] == diceVals[p] + 1)
+									usedCategories[nPlayers][category] = 1;
 									return true;
 							}
 						}
@@ -198,7 +222,10 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			}
 		} else if (category == 14) {
 			for (int i =0; i< N_DICE-1; i++) {
-				if (diceVals[i] == diceVals[i+1]) return true;
+				if (diceVals[i] == diceVals[i+1]) {
+					usedCategories[nPlayers][category] = 1;
+					return true;
+				}
 			}
 			
 //			for (int m = 0; m < N_DICE; m++) {
