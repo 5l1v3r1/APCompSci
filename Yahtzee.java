@@ -1,3 +1,4 @@
+
 /*
  * File: Yahtzee.java
  * ------------------
@@ -52,18 +53,18 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void playGame() {
 
-for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
+		for (int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++) {
 
-		setCurrentPlayer();
-		firstRoll();
-		secondAndThirdRoll();
-		selectACategory();
+			setCurrentPlayer();
+			firstRoll();
+			secondAndThirdRoll();
+			selectACategory();
 //		display.updateScorecard(category, playerCounter, score);
 //		updateRunningTotal();
 //		setNextPlayer();
 //	
 
-	}
+		}
 
 	}
 
@@ -92,17 +93,17 @@ for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
 		}
 
 	}
-	
+
 	private void selectACategory() {
-		
-		
+
 		while (true) {
 			category = display.waitForPlayerToSelectCategory();
-			if(checkCategory(category)) break;
+			if (checkCategory(category))
+				break;
 		}
-		
+
 		if (category <= 6) {
-			for (int k = 0; k<diceVals.length; k++) {
+			for (int k = 0; k < diceVals.length; k++) {
 				if (diceVals[k] == category) {
 					Score += diceVals[k];
 				}
@@ -112,54 +113,79 @@ for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
 				Score += diceVals[l];
 			}
 		}
-		
+
 		display.updateScorecard(category, nPlayers, Score);
+		Score = 0;
 	}
-	
+
 	private boolean checkCategory(int category) {
-		
+
 		if (category <= 6) {
-			for (int i = 0; i<N_DICE; i++) {
-				if (diceVals[i] == category) return true;
+			for (int i = 0; i < N_DICE; i++) {
+				if (diceVals[i] == category)
+					return true;
 			}
 			return false;
-			
+
 		} else if (category == 9) {
-			
-			for (int j = 0; j<N_DICE; j++) {
-				for (int k = j+1; k<N_DICE; k++) {
-					for (int l = k+1; l<N_DICE; l++) {
-						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l]) return true;
+
+			for (int j = 0; j < N_DICE; j++) {
+				for (int k = j + 1; k < N_DICE; k++) {
+					for (int l = k + 1; l < N_DICE; l++) {
+						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l])
+							return true;
 					}
 				}
 			}
-			
+
 		} else if (category == 10) {
-			
-			for (int m = 0; m<N_DICE; m++) {
-				for (int n = m+1; n<N_DICE; n++) {
-					for (int o = n+1; o<N_DICE; o++) {
-						for (int p = o+1; p<N_DICE; p++) {
-							if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p]) return true;
+
+			for (int m = 0; m < N_DICE; m++) {
+				for (int n = m + 1; n < N_DICE; n++) {
+					for (int o = n + 1; o < N_DICE; o++) {
+						for (int p = o + 1; p < N_DICE; p++) {
+							if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p])
+								return true;
 						}
 					}
 				}
 			}
+		} else if (category == 11) {
+			int threeSame = 0;
+
+			for (int j = 0; j < N_DICE; j++) {
+				for (int k = j + 1; k < N_DICE; k++) {
+					for (int l = k + 1; l < N_DICE; l++) {
+						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l]) {
+							threeSame++;
+							fullHouseChecker = diceVals[j];						
+						}
+					}
+				}
+			}
+
+			if (threeSame == 1) {
+				for (int i = 0; i < N_DICE; i++) {
+					for (int j = i + 1; j < N_DICE; j++) {
+						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) {
+							return true;
+						}
+					}
+				}
+			}
+		} else if (category == 12) {
+			
 		} 
-//			else if (category == 11) {
-//			
-//		} else if (category == 12) {
-//			
-//		} else if (category == 13) {
+//			else if (category == 13) {
 //			
 //		} else if (category == 14) {
 //			
 //		} else if (category == 15) {
 //			
 //		}
-		
+
 		return false;
-		
+
 	}
 
 	/* Private instance variables */
@@ -172,4 +198,5 @@ for(int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++){
 	private int[][] usedCategories;
 	private int[] playersTotalScore;
 	private int category;
+	private int fullHouseChecker;
 }
