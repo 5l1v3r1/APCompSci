@@ -1,4 +1,3 @@
-
 /*
  * File: Yahtzee.java
  * ------------------
@@ -102,7 +101,12 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					}
 				}
 			} else if (category >= 11 || category <= 14) {
-				
+				switch(category) {
+				case 11: Score = 25;
+				case 12: Score = 30;
+				case 13: Score = 40;
+				case 14: Score = 50;
+				}
 			}
 		} else {
 			Score = 0;
@@ -193,18 +197,22 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				}
 			}
 		} else if (category == 14) {
-			for (int m = 0; m < N_DICE; m++) {
-				for (int n = m + 1; n < N_DICE; n++) {
-					for (int o = m + 1; o < N_DICE; o++) {
-						for (int p = o + 1; p < N_DICE; p++) {
-							for (int q = p + 1; q < N_DICE; q++) {
-								if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p] && diceVals[p] == diceVals[q])
-									return true;
-							}
-						}
-					}
-				}
+			for (int i =0; i< N_DICE-1; i++) {
+				if (diceVals[i] == diceVals[i+1]) return true;
 			}
+			
+//			for (int m = 0; m < N_DICE; m++) {
+//				for (int n = m + 1; n < N_DICE; n++) {
+//					for (int o = m + 1; o < N_DICE; o++) {
+//						for (int p = o + 1; p < N_DICE; p++) {
+//							for (int q = p + 1; q < N_DICE; q++) {
+//								if (diceVals[m] == diceVals[n] && diceVals[n] == diceVals[o] && diceVals[o] == diceVals[p] && diceVals[p] == diceVals[q])
+//									return true;
+//							}
+//						}
+//					}
+//				}
+//			}
 		} 
 		else if (category == 15) {
 			return true;
