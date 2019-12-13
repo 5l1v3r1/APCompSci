@@ -67,7 +67,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			firstRoll();
 			secondAndThirdRoll();
 			selectACategory();
-//			updateUpperTotal();
 			setNextPlayer();
 		}
 		
@@ -92,7 +91,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 			for (int j = 0; j < N_DICE; j++) {
 				if (display.isDieSelected(j) == true) {
-					diceVals[j] = 6;//rgen.nextInt(1, 6);
+					diceVals[j] = rgen.nextInt(1, 6);
 				}
 			}
 			display.displayDice(diceVals);
@@ -172,21 +171,14 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			}
 		} else if (category == 10) {
 			usedCategories[player - 1][category] = 1;
+			int fourOfAKindCounter = 0;
 			
-			for (int i = 0; i < N_DICE; i++) {
-				int currentFourOfAKindValue = diceVals[i];
-				if (diceVals[i] == currentFourOfAKindValue)
-					fourOfAKindChecker++;
-				if (fourOfAKindChecker++ >= 4) {
-					return true;
-				}
-			}
-			for (int i = 1; i < N_DICE; i++) {
-				int currentFourOfAKindValue = diceVals[i];
-				if (diceVals[i] == currentFourOfAKindValue)
-					fourOfAKindChecker++;
-				if (fourOfAKindChecker++ >= 4) {
-					return true;
+			for (int i = 0; i < N_DICE - 1; i++) {
+				if (diceVals[i] == diceVals[i + 1]) {
+					fourOfAKindCounter++;
+					if (fourOfAKindCounter >= 3) {
+						return true;
+					}
 				}
 			}
 		} else if (category == 11) {
@@ -246,6 +238,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			}
 		} else if (category == 14) {
 			usedCategories[player - 1][category] = 1;
+			int yahtzeeCounter = 0;
 
 			for (int i = 0; i < N_DICE - 1; i++) {
 				if (diceVals[i] == diceVals[i + 1]) {
@@ -255,7 +248,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					}
 				}
 			}
-			yahtzeeCounter = 0;
 		} else if (category == 15) {
 			usedCategories[player - 1][category] = 1;
 			
@@ -321,8 +313,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int[] playersTotalScore;
 	private int category;
 	private int fullHouseChecker;
-	private int fourOfAKindChecker;
-	private int yahtzeeCounter;
 	private int[] upperScoreUpdate;
 	private int[] lowerScoreUpdate;
 	private int UpperBonus = 0;
