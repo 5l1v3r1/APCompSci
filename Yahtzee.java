@@ -162,7 +162,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 	}
 
-	//This method is called inside selectacategory() and it checks if the dice rolled 
+	//This method is called inside selectACategory() and it checks if the dice rolled 
 	// is valid for whatever category the user selects 
 	private boolean checkCategory(int category) {
 
@@ -301,9 +301,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display.updateScorecard(TOTAL, player, playersTotalScore[player - 1]);
 	}
 
-	//Uses a player counter to transition to the next player
+	// Uses a player counter to transition to the next player
 	// after a category is chosen 
-	//Resets at one after the last player's turn 
+	// Resets player to one after the last player's turn 
 	private void setNextPlayer() {
 		
 		if (player < nPlayers) {
@@ -314,7 +314,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		
 	}
 	
-	//Checks to see the greatest value of the total score inside the playersTotalScore array 
+	// Checks to see the greatest value of the total score inside the playersTotalScore array 
 	// then prints out the player's name with said score  
 	private void declareWinner() {
 		topScore = 0;
@@ -325,7 +325,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		for (int i = 0; i < nPlayers; i++) {
 			if (playersTotalScore[i] == topScore) display.printMessage(playerNames[i] + " WINS!");
 		}
-		
 	}
 	
 	
