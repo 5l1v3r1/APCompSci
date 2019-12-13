@@ -27,7 +27,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	}
 
 	private void setCurrentPlayer() {
-		String currentPlayer = playerNames[playerCounter - 1];
+		String currentPlayer = playerNames[1];
 		display.printMessage(currentPlayer + "’s turn.  Roll the dice!");
 	}
 
@@ -250,24 +250,24 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	private void updateTotal() {
 		
-	playersTotalScore[playerCounter-1] += Score;
+	playersTotalScore[nPlayers] += Score;
 	
-	int totalingCounter =0;
+	int totalingCounter = 0;
 	for(int i = 0; i<= 6; i++){
-		if(usedCategories[playerCounter-1][i] != -1){
-			totalingCounter += usedCategories[playerCounter-1][i];
+		if(usedCategories[nPlayers][i] == 1){
+			totalingCounter += usedCategories[nPlayers][i];
 		}
 	}
-	display.updateScorecard(UPPER_SCORE, playerCounter, totalingCounter);
+	display.updateScorecard(UPPER_SCORE, nPlayers, totalingCounter);
 	
 	if(totalingCounter >= 63){ //upper bonus checker
 		int bonus = 35;
-		display.updateScorecard(UPPER_BONUS, playerCounter, bonus);
-		playersTotalScore[playerCounter-1] += bonus;
-		display.updateScorecard(TOTAL, playerCounter, (playersTotalScore[playerCounter-1]));
+		display.updateScorecard(UPPER_BONUS, nPlayers, bonus);
+		playersTotalScore[nPlayers] += bonus;
+		display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers]));
 	}
 	
-	display.updateScorecard(TOTAL, playerCounter, (playersTotalScore[playerCounter-1]));
+	display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers]));
 	
 	}
 	
@@ -283,6 +283,5 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int category;
 	private int fullHouseChecker;
 	private int fourOfAKindChecker;
-	private int playerCounter = 1;
 	private String winnerOfgame;
 }
