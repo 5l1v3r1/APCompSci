@@ -1,3 +1,4 @@
+
 /*
  * File: Yahtzee.java
  * ------------------
@@ -23,11 +24,12 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		}
 		display = new YahtzeeDisplay(getGCanvas(), playerNames);
 		initializeUsedCategories();
+		player = 1;
 		playGame();
 	}
 
 	private void setCurrentPlayer() {
-		String currentPlayer = playerNames[1];
+		String currentPlayer = playerNames[player - 1];
 		display.printMessage(currentPlayer + "’s turn.  Roll the dice!");
 	}
 
@@ -58,13 +60,15 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			secondAndThirdRoll();
 			selectACategory();
 			updateUpperTotal();
-//			setNextPlayer();
+			setNextPlayer();
 		}
+		
+		declareWinner();
 	}
 
 	private void firstRoll() {
 
-		display.waitForPlayerToClickRoll(nPlayers);
+		display.waitForPlayerToClickRoll(player);
 		for (int i = 0; i < N_DICE; i++) {
 			diceVals[i] = rgen.nextInt(1, 6);
 		}
@@ -92,55 +96,57 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 		category = display.waitForPlayerToSelectCategory();
 		
-		/*
-		 * FIX THIS
-		 */
-		
-		//while (usedCategories[nPlayers][category] == 1) {
-//			if (usedCategories[nPlayers][category] == 0) {
-				if (checkCategory(category)) {
-		
-					if (category <= 6) {
-						for (int k = 0; k < diceVals.length; k++) {
-							if (diceVals[k] == category) {
-								Score += diceVals[k];
-							}
-						}
-					} else if (category == 9 || category == 10 || category == 15) {
-						for (int j = 0; j < diceVals.length; j++) {
-							Score += diceVals[j];
-						}
-					} else if (category >= 11 || category <= 14) {
-						switch(category) {
-						case 11: Score = 25; break;
-						case 12: Score = 30; break;
-						case 13: Score = 40; break;
-						case 14: Score = 50; break;
-						}
+		if (usedCategories[player - 1][category] == 1) {
+			while (usedCategories[player - 1][category] == 1) {
+				display.printMessage("This category has been used. Please choose another.");
+				category = display.waitForPlayerToSelectCategory();
+			}
+		}
+
+		if (checkCategory(category)) {
+
+			if (category <= 6) {
+				for (int k = 0; k < diceVals.length; k++) {
+					if (diceVals[k] == category) {
+						Score += diceVals[k];
 					}
-				} else {
-					Score = 0;
 				}
-		
-				display.updateScorecard(category, nPlayers, Score);
-				if (category <= 6) upperScoreUpdate += Score;
-				updateUpperTotal();
-				Score = 0;
-	} 
-				//else {
-//				display.printMessage("This category has been used.");
-//				display.printMessage("Choose Another");
-//			}
-//		}
-		
-	//}
+			} else if (category == 9 || category == 10 || category == 15) {
+				for (int j = 0; j < diceVals.length; j++) {
+					Score += diceVals[j];
+				}
+			} else if (category >= 11 || category <= 14) {
+				switch (category) {
+				case 11: Score = 25; break;
+				case 12: Score = 30; break;
+				case 13: Score = 40; break;
+				case 14: Score = 50; break;
+				}
+			}
+		} else {
+			Score = 0;
+		}
+
+		display.updateScorecard(category, player, Score);
+		if (category <= 6) {
+			upperScoreUpdate += Score;
+			updateUpperTotal();
+			Score = 0;
+		}
+		if (category >= 9 && category <= 15) {
+			lowerScoreUpdate += Score;
+			updateLowerTotal();
+			Score = 0;
+		}
+	
+	}
 
 	private boolean checkCategory(int category) {
 
 		if (category <= 6) {
 			for (int i = 0; i < N_DICE; i++) {
 				if (diceVals[i] == category) {
-					//usedCategories[nPlayers][category] = 1;
+					usedCategories[player - 1][category] = 1;
 					return true;
 				}
 			}
@@ -152,7 +158,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				for (int k = j + 1; k < N_DICE; k++) {
 					for (int l = k + 1; l < N_DICE; l++) {
 						if (diceVals[j] == diceVals[k] && diceVals[k] == diceVals[l])
-							//usedCategories[nPlayers][category] = 1;
+							usedCategories[player - 1][category] = 1;
 							return true;
 					}
 				}
@@ -162,21 +168,23 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 			for (int i = 0; i < N_DICE; i++) {
 				int currentFourOfAKindValue = diceVals[i];
-				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
+				if (diceVals[i] == currentFourOfAKindValue)
+					fourOfAKindChecker++;
 				if (fourOfAKindChecker++ >= 4) {
-					//usedCategories[nPlayers][category] = 1;
+					usedCategories[player - 1][category] = 1;
 					return true;
 				}
 			}
 			for (int i = 1; i < N_DICE; i++) {
 				int currentFourOfAKindValue = diceVals[i];
-				if(diceVals[i] == currentFourOfAKindValue) fourOfAKindChecker++;
+				if (diceVals[i] == currentFourOfAKindValue)
+					fourOfAKindChecker++;
 				if (fourOfAKindChecker++ >= 4) {
-					//usedCategories[nPlayers][category] = 1;
+					usedCategories[player - 1][category] = 1;
 					return true;
 				}
 			}
-			
+
 		} else if (category == 11) {
 			int threeSame = 0;
 
@@ -194,10 +202,10 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			if (threeSame == 1) {
 				for (int i = 0; i < N_DICE; i++) {
 					for (int j = i + 1; j < N_DICE; j++) {
-						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) 
-							//usedCategories[nPlayers][category] = 1;
+						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j])
+							usedCategories[player - 1][category] = 1;
 							return true;
-						
+
 					}
 				}
 			}
@@ -206,8 +214,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				for (int n = 0; n < N_DICE; n++) {
 					for (int o = 0; o < N_DICE; o++) {
 						for (int p = 0; p < N_DICE; p++) {
-							if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1)
-//								usedCategories[nPlayers][category] = 1;
+							if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1
+									&& diceVals[p] == diceVals[o] + 1)
+								usedCategories[player - 1][category] = 1;
 								return true;
 						}
 					}
@@ -219,8 +228,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					for (int o = 0; o < N_DICE; o++) {
 						for (int p = 0; p < N_DICE; p++) {
 							for (int q = 0; q < N_DICE; q++) {
-								if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1 && diceVals[q] == diceVals[p] + 1)
-									//usedCategories[nPlayers][category] = 1;
+								if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1
+										&& diceVals[p] == diceVals[o] + 1 && diceVals[q] == diceVals[p] + 1)
+									usedCategories[player - 1][category] = 1;
 									return true;
 							}
 						}
@@ -228,35 +238,59 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				}
 			}
 		} else if (category == 14) {
-			for (int i =0; i< N_DICE-1; i++) {
-				if (diceVals[i] == diceVals[i+1]) {
-					//usedCategories[nPlayers][category] = 1;
+			for (int i = 0; i < N_DICE - 1; i++) {
+				if (diceVals[i] == diceVals[i + 1]) {
+					usedCategories[player - 1][category] = 1;
 					return true;
 				}
 			}
-		} 
-		else if (category == 15) {
+		} else if (category == 15) {
+			usedCategories[player - 1][category] = 1;
 			return true;
 		}
 		return false;
 	}
 
 	private void updateUpperTotal() {
-	
-		playersTotalScore[nPlayers-1] += Score;
-	
-	
-		display.updateScorecard(UPPER_SCORE, nPlayers, upperScoreUpdate);
+
+		playersTotalScore[player - 1] += Score;
+
+		display.updateScorecard(UPPER_SCORE, player, upperScoreUpdate);
 
 		if (upperScoreUpdate >= 63) {
 			UpperBonus = 35;
-			display.updateScorecard(UPPER_BONUS, nPlayers, UpperBonus);
+			display.updateScorecard(UPPER_BONUS, player, UpperBonus);
 		}
 
-
-		display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers-1])+UpperBonus);
+		display.updateScorecard(TOTAL, player, (playersTotalScore[player - 1]) + UpperBonus);
 
 	}
+
+	private void updateLowerTotal() {
+		playersTotalScore[player - 1] += Score;
+
+		display.updateScorecard(LOWER_SCORE, player, lowerScoreUpdate);
+
+		display.updateScorecard(TOTAL, player, playersTotalScore[player - 1]);
+	}
+
+	private void setNextPlayer() {
+		player++;
+		if (player > nPlayers) player = 1;
+	}
+	
+	private void declareWinner() {
+		topScore = 0;
+		
+		for (int i = 0; i < nPlayers; i++) {
+			if (playersTotalScore[i] > topScore) topScore = playersTotalScore[i];
+		}
+		for (int i = 0; i < nPlayers; i++) {
+			if (playersTotalScore[i] == topScore) display.printMessage(playerNames[i] + " WINS!");
+		}
+		
+	}
+	
 	
 	/* Private instance variables */
 	private int nPlayers;
@@ -271,6 +305,10 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int fullHouseChecker;
 	private int fourOfAKindChecker;
 	private int upperScoreUpdate;
-	private int UpperBonus;
+	private int lowerScoreUpdate;
+	private int UpperBonus = 0;
+	private int player;
+	private int topScore;
 	private String winnerOfgame;
+	
 }
