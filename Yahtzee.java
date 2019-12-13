@@ -96,8 +96,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		 * FIX THIS
 		 */
 		
-		//while (usedCategories[nPlayers][category] == 1) {
-//			if (usedCategories[nPlayers][category] == 0) {
+		while (usedCategories[nPlayers-1][category] == 1) {
+			if (usedCategories[nPlayers-1][category] == 0) {
 				if (checkCategory(category)) {
 		
 					if (category <= 6) {
@@ -127,9 +127,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				updateUpperTotal();
 				Score = 0;
 	} 
-				//else {
-//				display.printMessage("This category has been used.");
-//				display.printMessage("Choose Another");
+				else {
+				display.printMessage("This category has been used.");
+				display.printMessage("Choose Another");
 //			}
 //		}
 		
@@ -195,7 +195,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				for (int i = 0; i < N_DICE; i++) {
 					for (int j = i + 1; j < N_DICE; j++) {
 						if (diceVals[i] != fullHouseChecker && diceVals[i] == diceVals[j]) 
-							//usedCategories[nPlayers][category] = 1;
+							usedCategories[nPlayers-1][category] = 1;
 							return true;
 						
 					}
@@ -207,7 +207,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 					for (int o = 0; o < N_DICE; o++) {
 						for (int p = 0; p < N_DICE; p++) {
 							if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1)
-//								usedCategories[nPlayers][category] = 1;
+								usedCategories[nPlayers-1][category] = 1;
 								return true;
 						}
 					}
@@ -220,7 +220,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 						for (int p = 0; p < N_DICE; p++) {
 							for (int q = 0; q < N_DICE; q++) {
 								if (diceVals[n] == diceVals[m] + 1 && diceVals[o] == diceVals[n] + 1 && diceVals[p] == diceVals[o] +1 && diceVals[q] == diceVals[p] + 1)
-									//usedCategories[nPlayers][category] = 1;
+									usedCategories[nPlayers-1][category] = 1;
 									return true;
 							}
 						}
@@ -230,7 +230,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		} else if (category == 14) {
 			for (int i =0; i< N_DICE-1; i++) {
 				if (diceVals[i] == diceVals[i+1]) {
-					//usedCategories[nPlayers][category] = 1;
+					usedCategories[nPlayers-1][category] = 1;
 					return true;
 				}
 			}
@@ -248,16 +248,19 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 		display.updateScorecard(UPPER_SCORE, nPlayers, upperScoreUpdate);
 
-//			if(totalingCounter >= 63){ //upper bonus checker
-//				int bonus = 35;
-//				display.updateScorecard(UPPER_BONUS, nPlayers, bonus);
-//				playersTotalScore[nPlayers] += bonus;
-//				display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers-1]));
-//			}
+		if (upperScoreUpdate >= 63) {
+			UpperBonus = 35;
+		}
+			display.updateScorecard(UPPER_BONUS, nPlayers, UpperBonus);
+			display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers-1]) + UpperBonus);
 
-		display.updateScorecard(TOTAL, nPlayers, (playersTotalScore[nPlayers-1]));
+		}
 
-	}
+
+
+		
+		
+			
 	
 	/* Private instance variables */
 	private int nPlayers;
@@ -272,5 +275,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	private int fullHouseChecker;
 	private int fourOfAKindChecker;
 	private int upperScoreUpdate;
+	private int UpperBonus = 0;
 	private String winnerOfgame;
 }
