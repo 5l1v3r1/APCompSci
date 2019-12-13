@@ -41,12 +41,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	 * all the stored values to zero initially 
 	 */
 	private void initializeArrays() {
-		/*
-		 * Creates a 2D array that stores the used and unused categories for each player
-		 * so no one can re-use any category. Also initializes the "total score"
-		 * category for each player.
-		 */
-
+		
 		usedCategories = new int[nPlayers][N_CATEGORIES];
 		for (int i = 0; i < nPlayers; i++) {
 			for (int y = 0; y < N_CATEGORIES; y++) {
