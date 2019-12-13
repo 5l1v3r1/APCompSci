@@ -28,11 +28,18 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		playGame();
 	}
 
+	//Take the array of player names with a length defined as nPlayers and sets 
+	// the current player as the one at an indicated index 
 	private void setCurrentPlayer() {
 		String currentPlayer = playerNames[player - 1];
 		display.printMessage(currentPlayer + "’s turn.  Roll the dice!");
 	}
 
+	/*
+	 * Creates a 2D array that stores the used and unused categories for each player
+	 * so no one can re-use any category, as well as the player's total score array by setting 
+	 * all the stored values to zero initially 
+	 */
 	private void initializeArrays() {
 		/*
 		 * Creates a 2D array that stores the used and unused categories for each player
@@ -60,6 +67,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		}
 	}
 
+		//Plays the game immediately proceeding the run() method
 	private void playGame() {
 
 		for (int i = 0; i < (nPlayers * N_SCORING_CATEGORIES); i++) {
@@ -73,6 +81,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		declareWinner();
 	}
 
+	//Takes the array of possible dice values for the assigned dice 
+	// and creates a random number so as to simulate randomized rolls. 
+	// only for the first roll. 
 	private void firstRoll() {
 
 		display.waitForPlayerToClickRoll(player);
@@ -84,6 +95,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	}
 
+	//proceeds the first roll() method and urges user to select dice and roll again. 
 	private void secondAndThirdRoll() {
 
 		for (int i = 0; i < 2; i++) {
@@ -99,6 +111,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	}
 
+	//Allows the user to select a category after the third roll. Also checks if the 
+	// dice roll is valid 
 	private void selectACategory() {
 
 		category = display.waitForPlayerToSelectCategory();
@@ -148,6 +162,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 	}
 
+	//This method is called inside selectacategory() and it checks if the dice rolled 
+	// is valid for whatever category the user selects 
 	private boolean checkCategory(int category) {
 
 		if (category <= 6) {
@@ -256,6 +272,10 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		return false;
 	}
 
+	//This method checks the upperScoreUpdate array value to see if the 
+	// player has a valid score for the upper bonus (35 points) 
+	// Also is a live update for the upper total score; a sum of the first 
+	// six categories 
 	private void updateUpperTotal() {
 
 		playersTotalScore[player - 1] += Score;
@@ -271,6 +291,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 
 	}
 
+	// Is a live update for the lower total score; a sum of the last 
+	// seven categories
 	private void updateLowerTotal() {
 		playersTotalScore[player - 1] += Score;
 
@@ -279,6 +301,9 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display.updateScorecard(TOTAL, player, playersTotalScore[player - 1]);
 	}
 
+	//Uses a player counter to transition to the next player
+	// after a category is chosen 
+	//Resets at one after the last player's turn 
 	private void setNextPlayer() {
 		
 		if (player < nPlayers) {
@@ -289,6 +314,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		
 	}
 	
+	//Checks to see the greatest value of the total score inside the playersTotalScore array 
+	// then prints out the player's name with said score  
 	private void declareWinner() {
 		topScore = 0;
 		
