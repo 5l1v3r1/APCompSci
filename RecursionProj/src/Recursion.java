@@ -1,4 +1,5 @@
 /*
+ * Rosnel Leyva and Tory Hansen 
  * 
  */
 
@@ -6,9 +7,15 @@
 import acm.program.*;
 
 public class Recursion extends ConsoleProgram{
+	
+	//serial ID
+	private static final long serialVersionUID = 1L;
+	
 	String main = "";
 	int sum; 
 	String bin = ""; 
+	
+	//Problem 1 
 	private String ReverseString(String str) {
 		
 		if (str.length() == 1) {
@@ -22,6 +29,7 @@ public class Recursion extends ConsoleProgram{
 		return main; 
 	}
 
+	//Problem 2 
 	private int SumOfDigits(int x) {
 		
 		
@@ -36,6 +44,7 @@ public class Recursion extends ConsoleProgram{
 		return sum;
 	}
 	
+	//problem 3 
 	private String printInBinary(int number) {
 		if (number < 1) {
 			return bin;
@@ -47,6 +56,8 @@ public class Recursion extends ConsoleProgram{
 		}
 		return bin;
 	}
+	
+	//testing problem outputs
 	public void run() {
 		println(ReverseString("string"));
 		println(SumOfDigits(15704));
