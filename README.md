@@ -1,4 +1,4 @@
-# APCompSci - Yahtzee Project 
+# APCompSci 
 
 ----------
 Deerfield Academy AP Comp Sci Project - Mr.Lawlor Pd.1 
