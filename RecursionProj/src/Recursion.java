@@ -3,7 +3,7 @@
  * 
  */
 
-
+import java.util.ArrayList;
 
 import acm.program.*;
 
@@ -12,69 +12,67 @@ public class Recursion extends ConsoleProgram {
 	// serial ID
 	private static final long serialVersionUID = 1L;
 
-	String main = "";
-	int sum;
-	String bin = "";
-	int n;
 
 	// Problem 1
 	private String ReverseString(String str) {
-
 		if (str.length() == 1) {
-			main += str.substring(0, 1);
-			return main;
-		} else {
-			main += str.substring(str.length() - 1, str.length());
-			str = str.substring(0, str.length() - 1);
-			ReverseString(str);
+			return str;
 		}
-		return main;
+		return (ReverseString(str.substring(1)) + str.substring(0, 1));
 	}
 
 	// Problem 2
 	private int SumOfDigits(int x) {
 
 		if (x < 10) {
-			sum += x;
-			return sum;
+			return x;
 		} else {
-			sum += x % 10;
-			x = x / 10;
-			SumOfDigits(x);
+			 return((x%10) + (SumOfDigits(x/10)));
 		}
-		return sum;
 	}
 
 	// problem 3
-	private String printInBinary(int number) {
-		if (number < 1) {
-			return bin;
+	private void printInBinary(int number) {
+		if (number < 2) {
+			print(number);
 		} else {
+			printInBinary(number/2);
+			print(number % 2);
+		}
+	}
 
-			bin = number % 2 + bin;
-			number = number / 2;
-			printInBinary(number);
-		}
-		return bin;
-	}
-	
-	//problem 4
+	// problem 4
 	private int GCD(int x, int y) {
-		if(x%y == 0) {
+		if (x % y == 0) {
 			return y;
-		}else {
-			n = x%y;
-			GCD(n,y);
+		} else {
+			return GCD(y, x%y);
 		}
-		return n;
-	
+
 	}
+
+	// problem 5
+//	private boolean Solvable(int start, ArrayList<Integer> squares) {
+//		if (squares.get(start) < squares.get(start)) {
+//			return true;
+//		} else {
+//			start++;
+//			Solvable(start, squares);
+//		}
+//		return false;
+//	}
 
 	// testing problem outputs
-	public void run() {
-		println(ReverseString("string"));
-		println(SumOfDigits(15704));
-		println(printInBinary(35));
-		println(GCD(6,3));
+	public void run() { 
+		
+		//Uncomment to test output 
+		
+		//println(ReverseString("string"));
+		//println(SumOfDigits(15704));
+		//printInBinary(35);
+		//println(GCD(1000, 99));
+		// println(Solvable(0, squares));
 	}
+
+	//private ArrayList<Integer> squares = new ArrayList<Integer>();
 }
