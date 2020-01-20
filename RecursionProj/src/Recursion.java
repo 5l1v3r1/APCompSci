@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import acm.program.*;
 
-public class Recursion extends ConsoleProgram {
+public class recursionset extends ConsoleProgram {
 
 	// serial ID
 	private static final long serialVersionUID = 1L;
@@ -50,6 +50,18 @@ public class Recursion extends ConsoleProgram {
 		}
 
 	}
+	
+	//problem 6 
+	
+	 private static void towersHanoi(int n, String one , String two, String three) {
+	        if (n == 0) {
+	        	return;
+	        } else if((n > 0)) { 
+	        towersHanoi(n-1, one, two, three);
+	        System.out.print(" Move one disk from pole " + one + " to pole " + two); 
+	        towersHanoi(n-1, three, one, two);
+	        }
+	    }
 
 	// problem 5
 //	private boolean Solvable(int start, ArrayList<Integer> squares) {
@@ -70,8 +82,9 @@ public class Recursion extends ConsoleProgram {
 		//println(ReverseString("string"));
 		//println(SumOfDigits(15704));
 		//printInBinary(35);
-		//println(GCD(1000, 99));
+		//println(GCD(1000, 999));
 		// println(Solvable(0, squares));
+		towersHanoi(3,"1","2","3");
 	}
 
 	//private ArrayList<Integer> squares = new ArrayList<Integer>();
