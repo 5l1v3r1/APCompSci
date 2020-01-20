@@ -94,6 +94,19 @@ public class recursionset extends ConsoleProgram {
 		//printInBinary(35);
 		//println(GCD(1000, 999));
 		// println(Solvable(0, squares));
+		
+		ArrayList<Integer>squares = new ArrayList <Integer>();
+		
+		squares.add(0,3);
+		squares.add(6);
+		squares.add(4);
+		squares.add(1);
+		squares.add(3);
+		squares.add(4);
+		squares.add(2);
+		squares.add(5);
+		squares.add(3);
+		squares.add(0);
 		towersHanoi(3,"1","2","3");
 	}
 
