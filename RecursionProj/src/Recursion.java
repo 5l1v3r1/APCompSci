@@ -65,14 +65,24 @@ public class recursionset extends ConsoleProgram {
 
 	// problem 5
 //	private boolean Solvable(int start, ArrayList<Integer> squares) {
-//		if (squares.get(start) < squares.get(start)) {
-//			return true;
-//		} else {
-//			start++;
-//			Solvable(start, squares);
-//		}
-//		return false;
-//	}
+		boolean check; 
+		if (squares.get(start)==0) {
+			check = true;
+			return check;
+		} else {
+			if((squares.get(start) + start)<(squares.size()-1)) {
+				start+=squares.get(start);
+				check = false; 
+			}else {
+				start-=squares.get(start);
+			check = false;
+			}
+			Solvable(start,squares);
+			return check;
+
+		}
+	}
+	
 
 	// testing problem outputs
 	public void run() { 
