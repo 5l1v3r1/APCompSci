@@ -1,3 +1,4 @@
+
 /*
  * Rosnel Leyva and Tory Hansen 
  * 
@@ -7,11 +8,10 @@ import java.util.ArrayList;
 
 import acm.program.*;
 
-public class recursionset extends ConsoleProgram {
+public class Recursion extends ConsoleProgram {
 
 	// serial ID
 	private static final long serialVersionUID = 1L;
-
 
 	// Problem 1
 	private String ReverseString(String str) {
@@ -27,7 +27,7 @@ public class recursionset extends ConsoleProgram {
 		if (x < 10) {
 			return x;
 		} else {
-			 return((x%10) + (SumOfDigits(x/10)));
+			return ((x % 10) + (SumOfDigits(x / 10)));
 		}
 	}
 
@@ -36,7 +36,7 @@ public class recursionset extends ConsoleProgram {
 		if (number < 2) {
 			print(number);
 		} else {
-			printInBinary(number/2);
+			printInBinary(number / 2);
 			print(number % 2);
 		}
 	}
@@ -46,69 +46,49 @@ public class recursionset extends ConsoleProgram {
 		if (x % y == 0) {
 			return y;
 		} else {
-			return GCD(y, x%y);
+			return GCD(y, x % y);
 		}
 
 	}
-	
-	//problem 6 
-	
-	 private static void towersHanoi(int n, String one , String two, String three) {
-	        if (n == 0) {
-	        	return;
-	        } else if((n > 0)) { 
-	        towersHanoi(n-1, one, two, three);
-	        System.out.print(" Move one disk from pole " + one + " to pole " + two); 
-	        towersHanoi(n-1, three, one, two);
-	        }
-	    }
 
-	// problem 5
-//	private boolean Solvable(int start, ArrayList<Integer> squares) {
-		boolean check; 
-		if (squares.get(start)==0) {
-			check = true;
-			return check;
+
+
+	//Problem 5 
+	private boolean Solvable(int start, ArrayList<Integer> squares) {
+		if (start < 0 || start > squares.size()) {
+			return false;
+		} else if (squares.get(start) == 0) {
+			return true;
+		} else if (start == squares.get(start)) {
+			return false;
+		} else if (Solvable(start + squares.get(start), squares) == false) {
+			return Solvable(start - squares.get(start), squares);
 		} else {
-			if((squares.get(start) + start)<(squares.size()-1)) {
-				start+=squares.get(start);
-				check = false; 
-			}else {
-				start-=squares.get(start);
-			check = false;
-			}
-			Solvable(start,squares);
-			return check;
-
+			return Solvable(start + squares.get(start), squares);
 		}
 	}
-	
 
 	// testing problem outputs
-	public void run() { 
-		
-		//Uncomment to test output 
-		
-		//println(ReverseString("string"));
-		//println(SumOfDigits(15704));
-		//printInBinary(35);
-		//println(GCD(1000, 999));
-		// println(Solvable(0, squares));
-		
-		ArrayList<Integer>squares = new ArrayList <Integer>();
-		
-		squares.add(0,3);
-		squares.add(6);
+	public void run() {
+
+		squares.add(2);
+		squares.add(3);
+		squares.add(4);
+		squares.add(4);
+		squares.add(5);
 		squares.add(4);
 		squares.add(1);
-		squares.add(3);
-		squares.add(4);
-		squares.add(2);
-		squares.add(5);
-		squares.add(3);
+		squares.add(6);
+		squares.add(9);
 		squares.add(0);
-		towersHanoi(3,"1","2","3");
+
+		// Uncomment to test output
+
+		// println(ReverseString("string"));
+		// println(SumOfDigits(15704));
+		// printInBinary(35);
+		// println(GCD(1000, 99));
+		// println(Solvable(0, squares));
 	}
 
-	//private ArrayList<Integer> squares = new ArrayList<Integer>();
-}
+	private ArrayList<Integer> squares = new ArrayList<Integer>();
