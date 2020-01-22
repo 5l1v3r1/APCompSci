@@ -67,6 +67,18 @@ public class Recursion extends ConsoleProgram {
 			return Solvable(start + squares.get(start), squares);
 		}
 	}
+	
+	//problem 6 
+	
+	private void towersHanoi(int n, String one , String two, String three) {
+        if (n == 0) {
+        	return;
+        } else if((n > 0)) { 
+        towersHanoi(n-1, one, two, three);
+        println(" Move one disk from pole " + one + " to pole " + two); 
+        towersHanoi(n-1, three, one, two);
+        }
+	}
 
 	// testing problem outputs
 	public void run() {
@@ -89,6 +101,7 @@ public class Recursion extends ConsoleProgram {
 		// printInBinary(35);
 		// println(GCD(1000, 99));
 		// println(Solvable(0, squares));
+		//towersHanoi(3,"A","B","C");
 	}
 
 	private ArrayList<Integer> squares = new ArrayList<Integer>();
