@@ -51,9 +51,7 @@ public class Recursion extends ConsoleProgram {
 
 	}
 
-
-
-	//Problem 5 
+	// Problem 5
 	private boolean Solvable(int start, ArrayList<Integer> squares) {
 		if (start < 0 || start > squares.size()) {
 			return false;
@@ -67,17 +65,28 @@ public class Recursion extends ConsoleProgram {
 			return Solvable(start + squares.get(start), squares);
 		}
 	}
-	
-	//problem 6 
-	
-	private void towersHanoi(int n, String one , String two, String three) {
-        if (n == 0) {
-        	return;
-        } else if((n > 0)) { 
-        towersHanoi(n-1, one, two, three);
-        println(" Move one disk from pole " + one + " to pole " + two); 
-        towersHanoi(n-1, three, one, two);
-        }
+
+	// problem 6
+
+	private void towersHanoi(int n, String one, String two, String three) {
+		if (n == 0) {
+			return;
+		} else if ((n > 0)) {
+			towersHanoi(n - 1, one, two, three);
+			println(" Move disk from pole " + one + " to pole " + two);
+			towersHanoi(n - 1, three, one, two);
+		}
+	}
+
+	// Fibonacci Sequence
+	private long fib(long count) {
+		if (count == 0) {
+			return 0;
+		} else if (count == 1) {
+			return 1;
+		} else {
+			return fib(count - 1) + fib(count - 2);
+		}
 	}
 
 	// testing problem outputs
@@ -101,7 +110,17 @@ public class Recursion extends ConsoleProgram {
 		// printInBinary(35);
 		// println(GCD(1000, 99));
 		// println(Solvable(0, squares));
-		//towersHanoi(3,"A","B","C");
+		// towersHanoi(3,"A","B","C");
+		
+		//input test for fibonacci sequence
+		long input; 
+		while(true) {
+		input = readInt("Input index: ");
+		for (int i = 0; i <1; i++) {
+		println(fib(input));
+		}
+		}
 	}
 
 	private ArrayList<Integer> squares = new ArrayList<Integer>();
+}
